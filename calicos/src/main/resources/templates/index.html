@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 10px;
+            max-width: 250px;
+            text-align: center;
+        }
+        .display {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border: 2px solid black;
+            font-size: 1.5em;
+            background: #f4f4f4;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+        .operators {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        .equalto {
+            display: grid;
+        }
+        button {
+            padding: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            background: lightgray;
+        }
+        button:hover {
+            background: gray;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>CalcOps</h1>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="expression" style="font-size: 1em;">
+            <span id="result">0</span>
+        </div>
+        <div class="keypad">
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button onclick="clearExpression()">C</button>
+        </div>
+        <div class="operators">
+            <button onclick="appendValue('+')">+</button>
+            <button onclick="appendValue('-')">-</button>
+            <button onclick="appendValue('*')">×</button>
+            <button onclick="appendValue('/')">÷</button>
+            <button onclick="appendValue('^')">^</button>
+            <button onclick="appendValue('sqrt(')">√</button>
+            <button onclick="appendValue('!')">!</button>
+            <button onclick="appendValue('ln(')">ln</button>
+        </div>
+        <div class="equalto">
+            <button onclick="calculate()">=</button>
+        </div>
+    </div>
+    <script>
+        function appendValue(value) {
+            document.getElementById('expression').value += value;
+        }
+        function clearExpression() {
+            document.getElementById('expression').value = '';
+            document.getElementById('result').innerText = '0';
+        }
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            return n * factorial(n - 1);
+        }
+        function calculate() {
+            try {
+                let expr = document.getElementById('expression').value;
+                expr = expr.replace(/sqrt\(([^)]+)\)/g, 'Math.sqrt($1)');
+                expr = expr.replace(/ln\(([^)]+)\)/g, 'Math.log($1)');
+                expr = expr.replace(/(\d+)!/g, (match, num) => factorial(parseInt(num)));
+                expr = expr.replace(/(\d+)\^(\d+)/g, 'Math.pow($1, $2)');
+                let result = eval(expr);
+                result = result > 100000000 || result < 0.0001 ? result.toExponential(7) : parseFloat(result.toFixed(7));
+                document.getElementById('result').innerText = result;
+            } catch {
+                document.getElementById('result').innerText = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
