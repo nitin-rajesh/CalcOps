@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-22-jammy'
-            args '--network=jenkins-net'
-        }
-    }
+    agent any
     environment {
         DOCKER_HOST = 'tcp://dind:2375'
     }
