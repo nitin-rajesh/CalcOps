@@ -17,7 +17,8 @@ secret.*
 secret.*
 queue.*
 identity.*
-*.xml
 *.log
+*jenkins*
+
 
 
