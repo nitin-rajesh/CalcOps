@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-22-jammy'
-            args '--network=jenkins-net'
-        }
-    }
+    agent any
     environment {
         DOCKER_HOST = 'tcp://dind:2375'
     }
@@ -25,7 +20,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build --tag=docker-calicos:latest .'
+                sh 'java -jar target/calicos-0.0.1-SNAPSHOT.jar'
             }
         }
 
