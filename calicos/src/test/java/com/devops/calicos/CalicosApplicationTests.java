@@ -16,10 +16,19 @@ class CalicosApplicationTests {
 	@LocalServerPort
 	private int port;
 
+	ChromeOptions options;
+
+	void initOptions(){
+		options = new ChromeOptions();
+		options.addArguments("--headless");  // Run in headless mode
+		options.addArguments("--no-sandbox");  // Bypass OS security model
+		options.addArguments("--disable-dev-shm-usage");
+	}
+
 	@Test
 	void contextLoads() {
-
-		WebDriver driver = new ChromeDriver();
+		initOptions();
+		WebDriver driver = new ChromeDriver(options);
 		driver.get(String.format("http://localhost:%d/calci",port));
 		WebElement calciPad = driver.findElement(By.className("calculator"));
 		assert calciPad.isEnabled();
@@ -29,11 +38,13 @@ class CalicosApplicationTests {
 
 	@Test
 	void calculateEquations() {
+
 		String[] equations = {"128+256*512/1024","ln(2.71828)+3^2","21!","sqrt(1024)","2..3"};
 
 		String[] answers = {"256","9.9999993","5.1090942e+19","32","Error"};
 
-		WebDriver driver = new ChromeDriver();
+		initOptions();
+		WebDriver driver = new ChromeDriver(options);
 		driver.get(String.format("http://localhost:%d/calci",port));
 
 		WebElement entryField = driver.findElement(By.id("expression"));
@@ -53,7 +64,8 @@ class CalicosApplicationTests {
 
 	@Test
 	void useNumPad(){
-		WebDriver driver = new ChromeDriver();
+		initOptions();
+		WebDriver driver = new ChromeDriver(options);
 		driver.get(String.format("http://localhost:%d/calci",port));
 
 		WebElement entryField = driver.findElement(By.id("expression"));
