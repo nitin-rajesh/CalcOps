@@ -24,9 +24,10 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build --tag=docker-calicos:latest .'
+                sh 'docker build --tag=docker-calicos:latest calicos/.'
+                sh 'docker images'
             }
         }
-
+        
     }
 }
