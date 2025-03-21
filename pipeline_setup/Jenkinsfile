@@ -18,7 +18,7 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn -f calicos/pom.xml clean package'
             }
         }
 
