@@ -1,0 +1,20 @@
+---
+- name: Deploy Docker Container
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Pull Docker Image from Docker Hub
+      community.docker.docker_image:
+        name: "nitinrajesh/docker-calicos:latest"
+        source: pull
+        docker_host: "unix:///var/run/docker.sock"
+
+    - name: Run Docker Container
+      community.docker.docker_container:
+        name: calicosjar
+        image: "nitinrajesh/docker-calicos:latest" 
+        state: started
+        ports:
+          - "6789:6789"   
+        restart_policy: always
+
