@@ -1,10 +1,15 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_HOST = 'tcp://dind:2375'
-    }
 
     stages {
+        stage('Check prereqs') {
+            steps {
+                sh 'docker version'
+                sh 'docker ps'
+                sh 'mvn -v'
+            }
+        }
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main',
