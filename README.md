@@ -1,4 +1,4 @@
-# SPE Assignment
+# SPE Mini Project
 
 Nitin Kumar Rajesh:: _MT2024103_
 
